@@ -1,0 +1,46 @@
+library(tseries)     # provide get.hist.quote()
+library(timeSeries)  # to provide as.timeSeries()
+
+
+MSFTdata = get.hist.quote(instrument = "MSFT", start="2000-01-01", end="2012-12-31",
+               quote = c("Adjusted"), provider = "yahoo", compression = "m")
+
+MSFT = diff(data.matrix(log(MSFTdata$Adjusted)))
+
+INTCdata = get.hist.quote(instrument = "INTC", start="2000-01-01", end="2012-12-31",
+               quote = c("Adjusted"), provider = "yahoo", compression = "m")
+
+INTC = diff(data.matrix(log(INTCdata$Adjusted)))
+
+GEdata = get.hist.quote(instrument = "GE", start="2000-01-01", end="2012-12-31",
+               quote = c("Adjusted"),provider = "yahoo", compression = "m")
+
+GE  = diff(data.matrix(log(GEdata$Adjusted)))
+
+
+YHOOdata = get.hist.quote(instrument = "YHOO", start="2000-01-01", end="2012-12-31",
+               quote = c("Adjusted"),provider = "yahoo", compression = "m")
+
+YHOO = diff(data.matrix(log(YHOOdata$Adjusted)))
+
+mydata = data.frame(list(MSFT=MSFT, INTC=INTC, GE=GE, YHOO=YHOO))
+
+mydata = as.timeSeries(mydata)
+
+colnames(mydata)[1] = "MSFT"
+colnames(mydata)[2] = "INTC"
+colnames(mydata)[3] = "GE"
+colnames(mydata)[4] = "YHOO"
+ 
+mypca = princomp(mydata, cor = TRUE)
+
+summary(mypca)
+
+loadings(mypca)  ## note that blank entries are small but not zero
+plot(mypca) # shows a screeplot.
+
+mydataPCA = merge(mydata, mypca$scores)
+
+pairs( mydataPCA[,1:6])
+
+ 
