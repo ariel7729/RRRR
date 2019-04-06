@@ -1,0 +1,32 @@
+#Example 1.2 For the 6 portfolios constructed by Professor Kenneth French 6 Portfolios 2x3 daily.txt, denoted by R1, ..., R6 #The first 3 PCs can explain together 96.551914% of variation in the returns. These PCs are respectively
+
+r = read.table('*/6_Portfolios_2x3_daily.txt')
+
+r = data.matrix(r[,2:7])
+
+mypca = princomp(r, cor = TRUE)
+
+summary(mypca)
+
+loadings(mypca)  ## note that blank entries are small but not zero
+plot(mypca) # shows a screeplot.
+
+PCA = data.matrix(mypca$scores[,1:3])
+
+mydataPCA = data.frame(matrix(c(r, PCA), length(r[,1]), 9))
+
+
+colnames(mydataPCA)[1] = "R1"
+colnames(mydataPCA)[2] = "R2"
+colnames(mydataPCA)[3] = "R3"
+colnames(mydataPCA)[4] = "R4"
+colnames(mydataPCA)[5] = "R5"
+colnames(mydataPCA)[6] = "R6"
+
+
+colnames(mydataPCA)[7] = "PC1"
+colnames(mydataPCA)[8] = "PC2"
+colnames(mydataPCA)[9] = "PC3"
+
+
+pairs(mydataPCA)
