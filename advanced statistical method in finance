@@ -1,3 +1,6 @@
+# Consider the monthly stock market returns of MSFT, INTC, GE, YHOO. The first principal components are respectively.
+
+
 library(tseries)     # provide get.hist.quote()
 library(timeSeries)  # to provide as.timeSeries()
 
